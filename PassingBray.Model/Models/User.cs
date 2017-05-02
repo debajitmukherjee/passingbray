@@ -21,6 +21,10 @@ namespace PassingBray.Model
 
         public List<Card> Cards { get; set; }
 
+        public List<Card> ReceivedCards { get; set; }
+
         public bool IsAdmin { get; set; }
+
+        public int Position { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PassingBray.Model.Application
 {
-    public static class AppItem
+    public static class PassingBrayContext
     {
         public static List<Card> Cards { get; set; }
 

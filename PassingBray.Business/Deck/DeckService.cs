@@ -53,19 +53,19 @@ namespace PassingBray.Business
 
         public static void DistributeCards()
         {
-            AppItem.Cards = Shuffle();
-            if (AppItem.Users != null && AppItem.Users.Count == 4)
+            PassingBrayContext.Cards = Shuffle();
+            if (PassingBrayContext.Users != null && PassingBrayContext.Users.Count == 4)
             {
-                for (int count = 0; count < AppItem.Cards.Count; count = count + 4)
+                for (int count = 0; count < PassingBrayContext.Cards.Count; count = count + 4)
                 {
-                    AppItem.Users[0].Cards.Add(AppItem.Cards[count]);
-                    AppItem.Users[1].Cards.Add(AppItem.Cards[count + 1]);
-                    AppItem.Users[2].Cards.Add(AppItem.Cards[count + 2]);
-                    AppItem.Users[3].Cards.Add(AppItem.Cards[count + 3]);
+                    PassingBrayContext.Users[0].Cards.Add(PassingBrayContext.Cards[count]);
+                    PassingBrayContext.Users[1].Cards.Add(PassingBrayContext.Cards[count + 1]);
+                    PassingBrayContext.Users[2].Cards.Add(PassingBrayContext.Cards[count + 2]);
+                    PassingBrayContext.Users[3].Cards.Add(PassingBrayContext.Cards[count + 3]);
                 }
             }
 
-            foreach(var user in AppItem.Users)
+            foreach(var user in PassingBrayContext.Users)
             {
                 UserService.RearrangeCards(user);
             }

@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\AppItem.cs" />
+    <Compile Include="Application\PassingBrayContext.cs" />
     <Compile Include="Enums\Enum.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Deal.cs" />

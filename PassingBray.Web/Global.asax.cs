@@ -15,7 +15,7 @@ namespace Azure.Web
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            AppItem.Cards = DeckService.Shuffle();
+            PassingBrayContext.Cards = DeckService.Shuffle();
         }
     }
 }
