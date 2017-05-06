@@ -11,6 +11,7 @@ namespace PassingBray.Model
         public User()
         {
             Cards = new List<Card>();
+            ReceivedCards = new List<Card>();
         }
 
         public string UserName { get; set; }
@@ -26,5 +27,7 @@ namespace PassingBray.Model
         public bool IsAdmin { get; set; }
 
         public int Position { get; set; }
+
+        public int Score { get; set; }
     }
 }

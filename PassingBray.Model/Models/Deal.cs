@@ -8,5 +8,8 @@ namespace PassingBray.Model
 {
     public class Deal
     {
+        public User User { get; set; }
+
+        public Card Card { get; set; }
     }
 }

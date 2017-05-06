@@ -53,6 +53,11 @@ namespace PassingBray.Business
 
         public static void DistributeCards()
         {
+            if(!UserService.IsGameEnabled())
+            {
+                return;
+            }
+
             PassingBrayContext.Cards = Shuffle();
             if (PassingBrayContext.Users != null && PassingBrayContext.Users.Count == 4)
             {
@@ -65,11 +70,24 @@ namespace PassingBray.Business
                 }
             }
 
-            foreach(var user in PassingBrayContext.Users)
+            foreach (var user in PassingBrayContext.Users)
             {
                 UserService.RearrangeCards(user);
             }
 
+        }
+
+        public static void ResetGame()
+        {
+            if (PassingBrayContext.Users != null)
+            {
+                foreach(var user in PassingBrayContext.Users)
+                {
+                    user.Score = 0;
+                    user.Cards = new List<Card>();
+                    user.ReceivedCards = new List<Card>();
+                }
+            }
         }
 
         #region private methods

@@ -11,5 +11,9 @@ namespace PassingBray.Model.Application
         public static List<Card> Cards { get; set; }
 
         public static List<User> Users { get; set; }
+
+        public static List<User> ConnectedUser { get; set; }
+
+        public static List<Deal> Deals { get; set; }
     }
 }

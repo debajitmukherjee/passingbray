@@ -33,24 +33,24 @@ namespace PassingBray.Business
             return users.FirstOrDefault(u => u.UserName == userName);
         }
 
-        public static bool IsUserAlreadyConnected(User user)
+        public static bool IsUserConnected(User user)
         {
-            if(PassingBrayContext.Users == null)
+            if(PassingBrayContext.ConnectedUser == null)
             {
-                PassingBrayContext.Users = new List<User>();
+                PassingBrayContext.ConnectedUser = new List<User>();
             }
 
-            return PassingBrayContext.Users.Any(u => u.UserName == user.UserName);
+            return PassingBrayContext.ConnectedUser.Any(u => u.UserName == user.UserName);
         }
 
         public static void RemoveUserFromContext(User user)
         {
-            if(PassingBrayContext.Users != null)
+            if(PassingBrayContext.ConnectedUser != null)
             {
-                var currentUser = PassingBrayContext.Users.FirstOrDefault(u => u.UserName == user.UserName);
+                var currentUser = PassingBrayContext.ConnectedUser.FirstOrDefault(u => u.UserName == user.UserName);
                 if(currentUser != null)
                 {
-                    PassingBrayContext.Users.Remove(currentUser);
+                    PassingBrayContext.ConnectedUser.Remove(currentUser);
                 }
             }
         }
@@ -58,6 +58,107 @@ namespace PassingBray.Business
         public static void RearrangeCards(User user)
         {
             user.Cards = user.Cards.OrderBy(c => c.CardType.ToString()).ThenBy(c => c.Number).ToList();
+        }
+
+        public static void PassCards(User user, List<Card> cards)
+        {
+            if(!IsGameEnabled())
+            {
+                return;
+            }
+
+            //remove the card from the user
+            foreach(var card in cards)
+            {
+                var userCard = user.Cards.FirstOrDefault(c => c.CardType == card.CardType && c.Number == card.Number);
+                user.Cards.Remove(userCard);
+            }
+
+            int position = user.Position;
+            if(position == 4)
+            {
+                PassingBrayContext.Users[0].ReceivedCards = cards;
+                PassingBrayContext.Users[0].Cards.AddRange(cards);
+                RearrangeCards(PassingBrayContext.Users[0]);
+            }
+            else
+            {
+                PassingBrayContext.Users[position + 1].ReceivedCards = cards;
+                PassingBrayContext.Users[position + 1].Cards.AddRange(cards);
+                RearrangeCards(PassingBrayContext.Users[position + 1]);
+            }
+        }
+
+        public static bool IsGameEnabled()
+        {
+            if(PassingBrayContext.Users == null || PassingBrayContext.Users.Count != 4)
+            {
+                return false;
+            }
+
+            if (PassingBrayContext.ConnectedUser == null || PassingBrayContext.ConnectedUser.Count != 4)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static User GetNextUser(User user)
+        {
+            int position = user.Position;
+            return position == 4 ? PassingBrayContext.Users[0] : PassingBrayContext.Users[position + 1];
+        }
+
+        public static void RecieveDeal(Deal deal)
+        {
+            if(PassingBrayContext.Deals == null)
+            {
+                PassingBrayContext.Deals = new List<Deal>();
+            }
+
+            if(PassingBrayContext.Deals.Count == 4)
+            {
+                return;
+            }
+
+            PassingBrayContext.Deals.Add(deal);
+
+        }
+
+        public static bool IsDealCompleted()
+        {
+            return PassingBrayContext.Deals.Count == 4;
+        }
+
+        public static User CalculatePoint()
+        {
+            var firstDeal = PassingBrayContext.Deals[0];
+            var dealOwner = PassingBrayContext.Deals.Where(d => d.Card.CardType == firstDeal.Card.CardType).OrderByDescending(d => d.Card.Number).FirstOrDefault();
+
+            //Calculate point
+            int point = 0;
+            foreach(var deal in PassingBrayContext.Deals)
+            {
+                if(deal.Card.CardType == Model.Enums.CardType.Hearts)
+                {
+                    point += 1;
+                }
+                if(deal.Card.CardType == Model.Enums.CardType.Spades && deal.Card.Number == 12)
+                {
+                    point += 12;
+                }
+            }
+
+
+            dealOwner.User.Score += point;
+            PassingBrayContext.Deals = new List<Deal>();
+            return dealOwner.User;
+        }
+
+        public static bool IsGameCompleted()
+        {
+            return PassingBrayContext.Users.Any(u => u.Score >= 100);
         }
     }
 }

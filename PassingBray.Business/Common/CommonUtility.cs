@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace PassingBray.Business
 {
@@ -27,6 +28,11 @@ namespace PassingBray.Business
                 list[k] = list[n];
                 list[n] = value;
             }
+        }
+
+        public static string HtmlEncode(string message)
+        {
+            return HttpContext.Current.Server.HtmlEncode(message);
         }
     }
 }
