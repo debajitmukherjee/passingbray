@@ -19,6 +19,19 @@
         padding: 15px 0;
     }
 }
-.borderall{
-    border: 1px solid black;
+
+.borderall {
+    border: 0px solid black;
 }
+
+.dealCards {
+    -webkit-filter: drop-shadow(3px 3px 3px #222);
+    filter: drop-shadow(3px 3px 3px #222);
+}
+
+.Cards {
+    -webkit-filter: drop-shadow(3px 3px 3px #222);
+    filter: drop-shadow(3px 3px 3px #222);
+}
+
+img:hover {  border:2px solid #222;  box-shadow: 0 0 13px #333;  -webkit-box-shadow: 0 0 13px #333;  -moz-box-shadow: 0 0 13px #333;  -o-box-shadow: 0 0 13px #333;  -ms-box-shadow: 0 0 13px #333;}
