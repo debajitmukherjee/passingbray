@@ -8,9 +8,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <title>Passing Bray</title>
 
-    <!-- Bootstrap -->
-    <link href="/Content/Vendor/bootstrap.min.css" rel="stylesheet">
-    <link href="/Content/Css/passingbray.css" rel="stylesheet">
+    @System.Web.Optimization.Styles.Render("~/css/sitecss")
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -24,9 +22,8 @@
 
     @RenderBody()
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="/Scripts/Vendor/jquery-1.9.1.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="/Scripts/Vendor/bootstrap.min.js"></script>
+    @Html.Partial("~/Views/Shared/LoginForm.cshtml")
+
+    @System.Web.Optimization.Scripts.Render("~/js/sitejs")
 </body>
 </html>
